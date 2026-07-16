@@ -242,6 +242,9 @@ function switchView(viewType) {
     const gridBtn = document.getElementById('gridViewBtn');
     const listBtn = document.getElementById('listViewBtn');
 
+    // 元素不存在时跳过（非首页或其他页面）
+    if (!container || !gridBtn || !listBtn) return;
+
     // 移除所有视图类
     container.classList.remove('article-grid', 'article-list');
 

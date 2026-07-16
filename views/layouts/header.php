@@ -45,7 +45,7 @@
     <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
 
     <!-- 修复后的样式文件 -->
-    <link rel="stylesheet" href="<?php echo ASSET_URL; ?>/css/style.css">
+    <link rel="stylesheet" href="<?php echo ASSET_URL; ?>/css/style.css?v=2">
 
     <!-- 图标 -->
     <link rel="icon" href="<?php echo ASSET_URL; ?>/images/favicon.ico" type="image/x-icon">

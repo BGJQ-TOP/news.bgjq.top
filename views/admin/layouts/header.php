@@ -8,7 +8,7 @@
     <!-- NES.css 样式 -->
     <link href="<?php echo ASSET_URL; ?>/css/nes.min.css" rel="stylesheet">
     <!-- 自定义样式 -->
-    <link href="<?php echo ASSET_URL; ?>/css/style.css" rel="stylesheet">
+    <link href="<?php echo ASSET_URL; ?>/css/style.css?v=2" rel="stylesheet">
     <!-- Font Awesome 图标 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
