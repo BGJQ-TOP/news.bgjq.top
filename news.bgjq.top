@@ -1,26 +1,26 @@
 server {
-    root /var/www/news.bgjq.top/html;
+    listen 80;
+    server_name news.bgjq.top;
 
+    root /var/www/news.bgjq.top/html;
     index index.php index.html index.htm;
 
-    server_name news.bgjq.top;
- 
     # 字符编码
     charset utf-8;
-    
+
     # 安全头设置
     add_header X-Frame-Options "SAMEORIGIN" always;
     add_header X-XSS-Protection "1; mode=block" always;
     add_header X-Content-Type-Options "nosniff" always;
     add_header Referrer-Policy "strict-origin-when-cross-origin" always;
-    
+
     # 静态资源缓存
     location ~* \.(jpg|jpeg|png|gif|ico|css|js|woff|woff2|ttf|svg)$ {
         expires 1y;
         add_header Cache-Control "public, immutable";
         access_log off;
     }
-    
+
     # 图片防盗链
     location ~* \.(jpg|jpeg|png|gif)$ {
         valid_referers none blocked server_names ~\.google\. ~\.baidu\. ~\.bing\. ~\.yahoo\. ~\.yandex\.;
@@ -28,26 +28,26 @@ server {
             return 403;
         }
     }
-    
+
     # 禁止访问敏感文件
     location ~ /\. {
         deny all;
         access_log off;
         log_not_found off;
     }
-    
+
     location ~ /\.ht {
         deny all;
     }
-    
+
     location ~* \.(log|sql|bak|inc|conf)$ {
         deny all;
     }
-    
+
     # API接口配置
     location /api/ {
         try_files $uri $uri/ /api/index.php?$query_string;
-        
+
         # API跨域设置
         if ($request_method = 'OPTIONS') {
             add_header 'Access-Control-Allow-Origin' '*';
@@ -56,21 +56,17 @@ server {
             add_header 'Access-Control-Max-Age' 86400;
             return 204;
         }
-        
+
         add_header 'Access-Control-Allow-Origin' '*' always;
         add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS' always;
         add_header 'Access-Control-Allow-Headers' 'Content-Type, AppID, Sign' always;
     }
-    
+
     # 后台管理路径保护
     location /admin/ {
-        # 基础认证（可选，生产环境建议启用）
-        # auth_basic "Admin Area";
-        # auth_basic_user_file /etc/nginx/.htpasswd;
-        
         try_files $uri $uri/ /index.php?$query_string;
     }
-    
+
     # PHP处理
     location ~ \.php$ {
         try_files $uri =404;
@@ -78,10 +74,9 @@ server {
         fastcgi_pass unix:/var/run/php/php8.5-fpm.sock;
         fastcgi_index index.php;
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-        
+
         include fastcgi_params;
-        
-        # PHP安全设置
+
         fastcgi_param PHP_VALUE "
             max_execution_time=300
             memory_limit=256M
@@ -92,57 +87,35 @@ server {
             error_log=/var/log/php/error.log
         ";
     }
-    
+
     # 主路由处理 - 新闻系统路由
-    # 文章详情页：/article/01 或 /a/01（支持简洁 URL）
     location ~ ^/(article|a)/([a-zA-Z0-9_-]+)/?$ {
         try_files $uri $uri/ /index.php?$query_string;
     }
-    
-    # 栏目页：/category/slug
+
     location ~ ^/category/([a-zA-Z0-9_-]+)/?$ {
         try_files $uri $uri/ /index.php?$query_string;
     }
-    
-    # 搜索页
+
     location = /search {
         try_files $uri $uri/ /index.php?$query_string;
     }
-    
-    # 投稿页
+
     location = /contribute {
         try_files $uri $uri/ /index.php?$query_string;
     }
-    
-    # 排行榜
+
     location = /rankings {
         try_files $uri $uri/ /index.php?$query_string;
     }
-    
-    # 默认路由
+
     location / {
         try_files $uri $uri/ /index.php?$query_string;
     }
-    
-    # 错误页面
+
     error_page 404 /404.html;
     error_page 500 502 503 504 /50x.html;
-    
-    # 访问日志
+
     access_log /var/log/nginx/news.bgjq.top.access.log;
     error_log /var/log/nginx/news.bgjq.top.error.log;
-
-    listen 443 ssl http2 ; # managed by Certbot
-    ssl_certificate /etc/ssl/cloudflare/bgjq.top.pem;
-    ssl_certificate_key /etc/ssl/cloudflare/bgjq.top.key;
-    include /etc/letsencrypt/options-ssl-nginx.conf;
-    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
-}
-
-# HTTP重定向到HTTPS
-server {
-    listen 80;
-    listen [::]:80;
-    server_name news.bgjq.top ;
-    return 301 https://$server_name$request_uri;
 }
