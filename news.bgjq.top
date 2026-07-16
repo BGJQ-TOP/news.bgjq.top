@@ -2,7 +2,7 @@ server {
     listen 80;
     server_name news.bgjq.top;
 
-    root /var/www/news.bgjq.top/html;
+    root /var/www/news.bgjq.top;
     index index.php index.html index.htm;
 
     # 字符编码
