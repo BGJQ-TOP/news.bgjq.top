@@ -1,60 +1,18 @@
 -- ============================================================
 -- news.bgjq.top 新闻系统 - 数据库初始化脚本
--- 从零开始：建库、建用户、建表、插入默认数据
--- 执行方式：mysql -u root -p < init_database.sql
+-- 前提：bgjq 数据库和 bgjq 用户已存在（由社区系统创建）
+--       users、countries 等社区表已恢复
+-- 使用方式：mysql -u root -p < init_database.sql
 -- ============================================================
-
--- 1. 创建数据库
-CREATE DATABASE IF NOT EXISTS `bgjq`
-    DEFAULT CHARACTER SET utf8mb4
-    DEFAULT COLLATE utf8mb4_unicode_ci;
-
--- 2. 创建数据库用户并授权
---    注意：修改密码为你的 .env 中的 DB_PASS
-CREATE USER IF NOT EXISTS 'bgjq'@'localhost' IDENTIFIED BY 'BGJQ1314!';
-GRANT ALL PRIVILEGES ON `bgjq`.* TO 'bgjq'@'localhost';
-FLUSH PRIVILEGES;
 
 USE `bgjq`;
+SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- ============================================================
--- 3. 建表
+-- 新闻系统专用表（仅创建，不覆盖已有数据）
 -- ============================================================
 
--- 3.1 邦国表（用户所属邦国）
-CREATE TABLE IF NOT EXISTS `countries` (
-    `id` INT(11) NOT NULL AUTO_INCREMENT,
-    `name` VARCHAR(100) NOT NULL,
-    `flag_url` VARCHAR(255) DEFAULT NULL,
-    `declaration` TEXT DEFAULT NULL,
-    `government_type` ENUM('monarchy','democracy','guild','other') DEFAULT 'other',
-    `population` INT(11) DEFAULT 0,
-    `territory_chunks` INT(11) DEFAULT 0,
-    `joined_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `is_active` TINYINT(1) DEFAULT 1,
-    `description` TEXT DEFAULT NULL COMMENT '邦国简介',
-    PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='邦国表';
-
--- 3.2 用户表（社区用户，用于前台登录和后台管理员认证）
-CREATE TABLE IF NOT EXISTS `users` (
-    `id` INT(11) NOT NULL AUTO_INCREMENT,
-    `username` VARCHAR(50) NOT NULL,
-    `password` VARCHAR(255) NOT NULL COMMENT 'bcrypt 密码哈希',
-    `game_id` VARCHAR(100) NOT NULL,
-    `country_id` INT(11) DEFAULT NULL,
-    `role` ENUM('secretary_general','permanent_member','diplomat','observer','peacekeeper') DEFAULT 'observer',
-    `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    `jhtuid` TEXT NOT NULL COMMENT '简幻通UID',
-    `level` TEXT NOT NULL COMMENT '简幻通验证等级',
-    PRIMARY KEY (`id`),
-    UNIQUE KEY `unique_username` (`username`),
-    KEY `idx_country_id` (`country_id`),
-    KEY `idx_role` (`role`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='用户表';
-
--- 3.3 新闻栏目分类表
+-- 1. 新闻栏目分类表
 CREATE TABLE IF NOT EXISTS `news_categories` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
     `category_name` VARCHAR(50) NOT NULL COMMENT '栏目名称',
@@ -78,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `news_categories` (
     KEY `idx_category_is_active` (`category_is_active`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='新闻栏目分类表';
 
--- 3.4 新闻文章主表
+-- 2. 新闻文章主表
 CREATE TABLE IF NOT EXISTS `news_articles` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
     `article_title` VARCHAR(200) NOT NULL COMMENT '文章标题',
@@ -99,7 +57,7 @@ CREATE TABLE IF NOT EXISTS `news_articles` (
     `article_is_headline` TINYINT(1) DEFAULT 0 COMMENT '是否头条',
     `article_source_type` ENUM('admin','user_contribution','subsite_push','diplomat_announcement') DEFAULT 'admin' COMMENT '来源类型',
     `article_source_url` VARCHAR(255) DEFAULT NULL COMMENT '来源链接',
-    `article_author_id` INT(11) DEFAULT NULL COMMENT '作者 ID',
+    `article_author_id` INT(11) DEFAULT NULL COMMENT '作者 ID（关联 users 表）',
     `article_author_name` VARCHAR(100) DEFAULT NULL COMMENT '作者名称',
     `article_reject_reason` TEXT DEFAULT NULL COMMENT '驳回原因',
     `article_published_at` TIMESTAMP NULL DEFAULT NULL COMMENT '发布时间',
@@ -119,7 +77,7 @@ CREATE TABLE IF NOT EXISTS `news_articles` (
     FULLTEXT KEY `ft_article_title_content` (`article_title`, `article_content`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='新闻文章主表';
 
--- 3.5 新闻标签表
+-- 3. 新闻标签表
 CREATE TABLE IF NOT EXISTS `news_tags` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
     `tag_name` VARCHAR(50) NOT NULL COMMENT '标签名称',
@@ -136,7 +94,7 @@ CREATE TABLE IF NOT EXISTS `news_tags` (
     KEY `idx_tag_is_hot` (`tag_is_hot`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='新闻标签表';
 
--- 3.6 文章标签关联表
+-- 4. 文章标签关联表
 CREATE TABLE IF NOT EXISTS `news_article_tags` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
     `article_id` INT(11) NOT NULL,
@@ -147,7 +105,7 @@ CREATE TABLE IF NOT EXISTS `news_article_tags` (
     KEY `idx_tag_id` (`tag_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='新闻文章标签关联表';
 
--- 3.7 点赞记录表
+-- 5. 点赞记录表
 CREATE TABLE IF NOT EXISTS `news_likes` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
     `article_id` INT(11) NOT NULL,
@@ -158,7 +116,7 @@ CREATE TABLE IF NOT EXISTS `news_likes` (
     KEY `idx_article_id` (`article_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='新闻点赞记录表';
 
--- 3.8 评论表
+-- 6. 评论表
 CREATE TABLE IF NOT EXISTS `news_comments` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
     `article_id` INT(11) NOT NULL,
@@ -174,7 +132,7 @@ CREATE TABLE IF NOT EXISTS `news_comments` (
     KEY `idx_parent_comment_id` (`parent_comment_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='新闻评论表';
 
--- 3.9 后台管理员表（独立于 users 表，用于后台管理系统）
+-- 7. 后台管理员表（独立于 users 表）
 CREATE TABLE IF NOT EXISTS `news_admin_users` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
     `username` VARCHAR(50) NOT NULL,
@@ -191,7 +149,7 @@ CREATE TABLE IF NOT EXISTS `news_admin_users` (
     UNIQUE KEY `unique_username` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='后台管理员用户表';
 
--- 3.10 子站点配置表（API 推送接入）
+-- 8. 子站点配置表（API 推送接入）
 CREATE TABLE IF NOT EXISTS `news_subsite_configs` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
     `subsite_name` VARCHAR(100) NOT NULL COMMENT '子站点名称',
@@ -204,7 +162,7 @@ CREATE TABLE IF NOT EXISTS `news_subsite_configs` (
     UNIQUE KEY `unique_app_id` (`app_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='子站点配置表';
 
--- 3.11 推送日志表（匹配 push.php 实际使用字段）
+-- 9. 推送日志表
 CREATE TABLE IF NOT EXISTS `news_push_logs` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
     `subsite_app_id` VARCHAR(50) NOT NULL COMMENT '子站 AppID',
@@ -223,7 +181,7 @@ CREATE TABLE IF NOT EXISTS `news_push_logs` (
     KEY `idx_created_at` (`created_at`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='推送日志表';
 
--- 3.12 IndexNow 提交日志表（匹配 IndexNowService.php 实际使用字段）
+-- 10. IndexNow 提交日志表
 CREATE TABLE IF NOT EXISTS `news_indexnow_logs` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
     `url` VARCHAR(255) NOT NULL COMMENT '提交的 URL',
@@ -237,7 +195,7 @@ CREATE TABLE IF NOT EXISTS `news_indexnow_logs` (
     KEY `idx_created_at` (`created_at`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='IndexNow 日志表';
 
--- 3.13 操作日志表（匹配 functions.php 实际使用字段）
+-- 11. 操作日志表
 CREATE TABLE IF NOT EXISTS `news_operation_logs` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
     `admin_user_id` INT(11) DEFAULT NULL COMMENT '管理员用户 ID',
@@ -253,7 +211,7 @@ CREATE TABLE IF NOT EXISTS `news_operation_logs` (
     KEY `idx_created_at` (`created_at`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='操作日志表';
 
--- 3.14 轮播图表
+-- 12. 轮播图表
 CREATE TABLE IF NOT EXISTS `news_carousels` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
     `carousel_title` VARCHAR(200) DEFAULT NULL COMMENT '轮播图标题',
@@ -268,7 +226,7 @@ CREATE TABLE IF NOT EXISTS `news_carousels` (
     KEY `idx_carousel_is_active` (`carousel_is_active`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='轮播图表';
 
--- 3.15 搜索记录表
+-- 13. 搜索记录表
 CREATE TABLE IF NOT EXISTS `search_records` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
     `search_keyword` VARCHAR(200) NOT NULL COMMENT '搜索关键词',
@@ -280,7 +238,7 @@ CREATE TABLE IF NOT EXISTS `search_records` (
     KEY `idx_search_count` (`search_count`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='搜索记录表';
 
--- 3.16 权限授权表
+-- 14. 权限授权表
 CREATE TABLE IF NOT EXISTS `news_permissions` (
     `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
     `user_id` INT UNSIGNED NOT NULL COMMENT '被授权用户ID',
@@ -294,29 +252,20 @@ CREATE TABLE IF NOT EXISTS `news_permissions` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='用户额外权限授权表';
 
 -- ============================================================
--- 4. 插入默认数据
+-- 插入默认数据（INSERT IGNORE 避免重复插入）
 -- ============================================================
 
--- 4.1 默认栏目
-INSERT INTO `news_categories` (`category_name`, `category_code`, `category_slug`, `category_description`, `category_sort_order`) VALUES
+-- 默认栏目
+INSERT IGNORE INTO `news_categories` (`category_name`, `category_code`, `category_slug`, `category_description`, `category_sort_order`) VALUES
 ('官方公告', 'official_notice', 'official-notice', '官方公告与通知', 1),
 ('邦国新闻', 'country_news', 'country-news', '服务器邦国新闻综合报道', 2);
 
--- 4.2 默认邦国（系统邦国，id=1 为默认）
-INSERT INTO `countries` (`id`, `name`, `declaration`, `description`) VALUES
-(1, '默认邦国', '默认邦国', '系统默认邦国，新用户默认归属');
-
--- 4.3 默认管理员用户（密码使用 PASSWORD_SALT 加盐哈希）
---     密码: admin123
---     如需修改密码，请在 PHP 中运行：
---     echo password_hash('新密码' . PASSWORD_SALT, PASSWORD_DEFAULT);
-INSERT INTO `news_admin_users` (`username`, `password_hash`, `email`, `role`) VALUES
+-- 默认管理员（密码: admin123，加盐: bgjq_news_system_2026）
+INSERT IGNORE INTO `news_admin_users` (`username`, `password_hash`, `email`, `role`) VALUES
 ('admin', '$2y$12$DzSxCdHO7rzPi8luOKA6aexNYTZ/Wrvwit3tjY9IBUhlnYTA/Olt2', 'admin@bgjq.top', 'super_admin');
 
 -- ============================================================
 -- 完成
 -- ============================================================
-SELECT '数据库初始化完成！' AS message;
-SELECT '请修改 news_admin_users 表中 admin 用户的密码哈希。' AS notice;
-SELECT '运行以下 PHP 代码生成密码哈希：' AS tip;
-SELECT 'php -r "echo password_hash(\"你的密码\" . \"bgjq_news_system_2026\", PASSWORD_DEFAULT);"' AS command;
+SELECT '新闻系统表初始化完成！' AS message;
+SELECT '注意：users 和 countries 表由社区系统管理，已跳过。' AS notice;
