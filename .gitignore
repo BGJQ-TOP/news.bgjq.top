@@ -16,7 +16,8 @@ uploads/*
 cache/*
 
 # 数据库备份 (包含真实用户数据)
-sql/*.sql
+sql/bgjq*.sql
+sql/news_system_standalone.sql
 
 # 操作系统文件
 .DS_Store
