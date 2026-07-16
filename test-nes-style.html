@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NES 样式测试 - 邦国新闻</title>
+    <link rel="stylesheet" href="assets/css/nes.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="dark-mode">
+    <div class="container">
+        <!-- 标题 -->
+        <header class="site-header">
+            <div class="nes-container with-title is-centered">
+                <h1 class="title site-title">
+                    <img src="assets/images/BGJQ.webp" alt="邦国新闻" class="pixelated">
+                    邦国新闻
+                </h1>
+                <p class="nes-text is-primary" style="font-size: 10px; margin-top: 10px;">
+                    <i class="nes-icon star is-small"></i>
+                    NES 复古游戏风格测试
+                    <i class="nes-icon star is-small"></i>
+                </p>
+            </div>
+        </header>
+
+        <!-- 搜索框 -->
+        <div class="nes-container" style="margin-bottom: 20px;">
+            <div class="d-flex justify-between align-center" style="flex-wrap: wrap; gap: 10px;">
+                <form class="search-box" style="flex: 1; min-width: 250px;">
+                    <div class="nes-field is-inline" style="flex: 1; margin-bottom: 0;">
+                        <input type="search" class="nes-input" placeholder="搜索文章...">
+                    </div>
+                    <button type="submit" class="nes-btn is-primary">
+                        <i class="nes-icon search is-small"></i> 搜索
+                    </button>
+                </form>
+                <button class="nes-btn is-warning" onclick="toggleTheme()">
+                    <i class="nes-icon moon is-small"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- 导航菜单 -->
+        <nav class="nes-container" style="margin-bottom: 20px;">
+            <ul class="nav-menu">
+                <li><a href="#" class="nes-btn is-primary"><i class="nes-icon home is-small"></i> 首页</a></li>
+                <li><a href="#" class="nes-btn">国内新闻</a></li>
+                <li><a href="#" class="nes-btn">国际新闻</a></li>
+                <li><a href="#" class="nes-btn">科技资讯</a></li>
+                <li><a href="#" class="nes-btn is-success"><i class="nes-icon trophy is-small"></i> 排行榜</a></li>
+                <li><a href="#" class="nes-btn is-warning"><i class="nes-icon envelope is-small"></i> 投稿</a></li>
+            </ul>
+        </nav>
+
+        <!-- 文章列表 -->
+        <div class="nes-container with-title" style="margin-bottom: 20px;">
+            <h3 class="title"><i class="nes-icon clock is-small"></i> 最新资讯</h3>
+            <div class="nes-list is-disc">
+                <div class="article-item">
+                    <h4><a href="#" class="nes-text is-primary">测试文章标题 - NES 风格美化</a></h4>
+                    <p class="nes-text" style="font-size: 10px; line-height: 1.6;">
+                        这是一篇测试文章的内容摘要，展示了 NES.css 框架的复古游戏风格效果...
+                    </p>
+                    <div class="article-meta">
+                        <span class="nes-text is-disabled">
+                            <i class="nes-icon calendar is-small"></i> 04-07 10:30
+                        </span>
+                        <span class="nes-text is-disabled">
+                            <i class="nes-icon eye is-small"></i> 123
+                        </span>
+                        <span class="nes-text is-disabled">
+                            <i class="nes-icon heart is-small"></i> 45
+                        </span>
+                    </div>
+                </div>
+                <div class="article-item">
+                    <h4><a href="#" class="nes-text is-primary">第二篇测试文章</a></h4>
+                    <p class="nes-text" style="font-size: 10px; line-height: 1.6;">
+                        这是另一篇测试文章的内容摘要，展示了 NES.css 框架的复古游戏风格效果...
+                    </p>
+                    <div class="article-meta">
+                        <span class="nes-text is-disabled">
+                            <i class="nes-icon calendar is-small"></i> 04-07 09:15
+                        </span>
+                        <span class="nes-text is-disabled">
+                            <i class="nes-icon eye is-small"></i> 89
+                        </span>
+                        <span class="nes-text is-disabled">
+                            <i class="nes-icon heart is-small"></i> 23
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 按钮展示 -->
+        <div class="nes-container with-title" style="margin-bottom: 20px;">
+            <h3 class="title"><i class="nes-icon star is-small"></i> 按钮样式</h3>
+            <div class="d-flex gap-2" style="flex-wrap: wrap;">
+                <button class="nes-btn">默认按钮</button>
+                <button class="nes-btn is-primary">主要按钮</button>
+                <button class="nes-btn is-success">成功按钮</button>
+                <button class="nes-btn is-warning">警告按钮</button>
+                <button class="nes-btn is-error">错误按钮</button>
+                <button class="nes-btn is-disabled">禁用按钮</button>
+            </div>
+        </div>
+
+        <!-- 图标展示 -->
+        <div class="nes-container with-title" style="margin-bottom: 20px;">
+            <h3 class="title"><i class="nes-icon heart is-small"></i> 图标样式</h3>
+            <div class="d-flex gap-2" style="flex-wrap: wrap; align-items: center;">
+                <i class="nes-icon heart"></i>
+                <i class="nes-icon star"></i>
+                <i class="nes-icon like"></i>
+                <i class="nes-icon twitter"></i>
+                <i class="nes-icon facebook"></i>
+                <i class="nes-icon github"></i>
+                <i class="nes-icon google"></i>
+                <i class="nes-icon medium"></i>
+                <i class="nes-icon twitch"></i>
+                <i class="nes-icon youtube"></i>
+                <i class="nes-icon reddit"></i>
+                <i class="nes-icon whatsapp"></i>
+            </div>
+        </div>
+
+        <!-- 分页 -->
+        <div class="pagination" style="margin-bottom: 20px;">
+            <a href="#" class="nes-btn is-primary"><i class="nes-icon caret-left is-small"></i> 上一页</a>
+            <a href="#" class="nes-btn is-success">1</a>
+            <a href="#" class="nes-btn">2</a>
+            <a href="#" class="nes-btn">3</a>
+            <a href="#" class="nes-btn is-primary">下一页 <i class="nes-icon caret-right is-small"></i></a>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h5><i class="nes-icon star is-small"></i> 邦国新闻</h5>
+                    <p style="font-size: 10px; line-height: 1.8;">专业的中文新闻资讯平台</p>
+                </div>
+                <div class="footer-section">
+                    <h5><i class="nes-icon list is-small"></i> 快速链接</h5>
+                    <ul>
+                        <li><a href="#">首页</a></li>
+                        <li><a href="#">关于我们</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 邦国新闻. 保留所有权利.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleTheme() {
+            const body = document.body;
+            if (body.classList.contains('dark-mode')) {
+                body.className = 'light-mode';
+            } else {
+                body.className = 'dark-mode';
+            }
+        }
+    </script>
+</body>
+</html>

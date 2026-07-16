@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>邦国新闻 - NES风格测试</title>
+    <link rel="stylesheet" href="assets/css/nes.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    
+    <!-- 根据客户端时间自动切换主题 -->
+    <script>
+        // 根据时间自动设置主题
+        function setThemeByTime() {
+            const hour = new Date().getHours();
+            // 晚上18:00到早上06:00使用深色模式
+            if (hour >= 18 || hour < 6) {
+                document.body.className = 'dark-mode';
+            } else {
+                document.body.className = 'light-mode';
+            }
+        }
+
+        // 页面加载时立即设置主题
+        setThemeByTime();
+
+        // 每分钟检查一次，确保主题随时间变化
+        setInterval(setThemeByTime, 60000);
+    </script>
+</head>
+<body>
+    <!-- 顶部导航 -->
+    <header class="site-header">
+        <div class="container">
+            <div class="top-nav">
+                <a href="/" class="site-brand" style="text-decoration: none;">
+                    <img src="assets/images/BGJQ.webp" alt="邦国新闻" class="site-logo pixelated">
+                    <div>
+                        <h1 class="site-title">邦国新闻</h1>
+                        <p class="site-subtitle">BANGGUO NEWS</p>
+                    </div>
+                </a>
+
+                <div class="search-box" style="flex: 1; max-width: 400px;">
+                    <input type="search" class="search-input" placeholder="搜索文章...">
+                    <button class="nes-btn is-primary">
+                        <i class="nes-icon search is-small"></i>
+                    </button>
+                </div>
+
+                <div class="d-flex gap-1 align-center">
+                    <button id="theme-toggle" class="nes-btn" onclick="toggleTheme()" title="切换主题">
+                        <i class="nes-icon sun is-small" id="theme-icon"></i>
+                    </button>
+                    <a href="#" class="nes-btn is-primary">
+                        <i class="nes-icon user is-small"></i>
+                    </a>
+                </div>
+            </div>
+
+            <nav style="margin-top: 16px;">
+                <ul class="nav-menu">
+                    <li><a href="#" class="nes-btn is-primary"><i class="nes-icon home is-small"></i> 首页</a></li>
+                    <li><a href="#" class="nes-btn">国内新闻</a></li>
+                    <li><a href="#" class="nes-btn">国际新闻</a></li>
+                    <li><a href="#" class="nes-btn">科技资讯</a></li>
+                    <li><a href="#" class="nes-btn is-success"><i class="nes-icon trophy is-small"></i> 排行</a></li>
+                    <li><a href="#" class="nes-btn is-warning"><i class="nes-icon envelope is-small"></i> 投稿</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- 热门推荐 -->
+        <div class="row" style="margin-bottom: 24px;">
+            <div class="col-12">
+                <div class="nes-container with-title">
+                    <h3 class="title"><i class="nes-icon star is-small"></i> 热门推荐</h3>
+                    <div class="articles-grid">
+                        <div class="article-card animate-fade-in">
+                            <h4 class="article-title">
+                                <a href="#">测试文章标题 - NES像素风格展示</a>
+                            </h4>
+                            <p class="article-excerpt">
+                                这是一篇测试文章的内容摘要，展示了 NES.css 框架的复古游戏风格效果...
+                            </p>
+                            <div class="article-meta">
+                                <span><i class="nes-icon eye is-small"></i> 123</span>
+                                <span><i class="nes-icon heart is-small"></i> 45</span>
+                                <span><i class="nes-icon calendar is-small"></i> 04-07</span>
+                            </div>
+                        </div>
+                        <div class="article-card animate-fade-in">
+                            <h4 class="article-title">
+                                <a href="#">第二篇测试文章标题</a>
+                            </h4>
+                            <p class="article-excerpt">
+                                这是另一篇测试文章的内容摘要，展示了邦国新闻的设计风格...
+                            </p>
+                            <div class="article-meta">
+                                <span><i class="nes-icon eye is-small"></i> 89</span>
+                                <span><i class="nes-icon heart is-small"></i> 23</span>
+                                <span><i class="nes-icon calendar is-small"></i> 04-07</span>
+                            </div>
+                        </div>
+                        <div class="article-card animate-fade-in">
+                            <h4 class="article-title">
+                                <a href="#">第三篇测试文章标题</a>
+                            </h4>
+                            <p class="article-excerpt">
+                                这是第三篇测试文章的内容摘要，展示响应式布局效果...
+                            </p>
+                            <div class="article-meta">
+                                <span><i class="nes-icon eye is-small"></i> 67</span>
+                                <span><i class="nes-icon heart is-small"></i> 12</span>
+                                <span><i class="nes-icon calendar is-small"></i> 04-07</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 主内容区 -->
+        <div class="row">
+            <!-- 左侧文章列表 -->
+            <div class="col-8 col-lg-12">
+                <div class="nes-container with-title">
+                    <div class="d-flex justify-between align-center" style="flex-wrap: wrap; gap: 16px; margin-bottom: 16px;">
+                        <h3 class="title" style="margin: 0;"><i class="nes-icon clock is-small"></i> 最新资讯</h3>
+
+                        <!-- 视图切换按钮 -->
+                        <div class="view-switcher">
+                            <button class="view-btn active" onclick="switchView('grid')" id="gridViewBtn">
+                                <i class="nes-icon grid is-small"></i> 卡片
+                            </button>
+                            <button class="view-btn" onclick="switchView('list')" id="listViewBtn">
+                                <i class="nes-icon list is-small"></i> 列表
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 文章容器 -->
+                    <div id="articlesContainer" class="articles-grid">
+                        <div class="article-card animate-fade-in">
+                            <h4 class="article-title">
+                                <a href="#">测试文章标题 - NES像素风格</a>
+                            </h4>
+                            <p class="article-excerpt">
+                                这是一篇测试文章的内容摘要，展示了 NES.css 框架的复古游戏风格效果，纯像素风格无渐变色...
+                            </p>
+                            <div class="article-meta">
+                                <span><i class="nes-icon calendar is-small"></i> 04-07 10:30</span>
+                                <span><i class="nes-icon eye is-small"></i> 123</span>
+                                <span><i class="nes-icon heart is-small"></i> 45</span>
+                            </div>
+                        </div>
+                        <div class="article-card animate-fade-in">
+                            <h4 class="article-title">
+                                <a href="#">第二篇测试文章 - 展示列表效果</a>
+                            </h4>
+                            <p class="article-excerpt">
+                                这是另一篇测试文章的内容摘要，展示了邦国新闻的设计风格，使用NES标准颜色...
+                            </p>
+                            <div class="article-meta">
+                                <span><i class="nes-icon calendar is-small"></i> 04-07 09:15</span>
+                                <span><i class="nes-icon eye is-small"></i> 89</span>
+                                <span><i class="nes-icon heart is-small"></i> 23</span>
+                            </div>
+                        </div>
+                        <div class="article-card animate-fade-in">
+                            <h4 class="article-title">
+                                <a href="#">第三篇测试文章 - 响应式设计</a>
+                            </h4>
+                            <p class="article-excerpt">
+                                这是第三篇测试文章的内容摘要，展示响应式布局效果，适配各种设备屏幕大小...
+                            </p>
+                            <div class="article-meta">
+                                <span><i class="nes-icon calendar is-small"></i> 04-07 08:30</span>
+                                <span><i class="nes-icon eye is-small"></i> 67</span>
+                                <span><i class="nes-icon heart is-small"></i> 12</span>
+                            </div>
+                        </div>
+                        <div class="article-card animate-fade-in">
+                            <h4 class="article-title">
+                                <a href="#">第四篇测试文章 - 自动主题切换</a>
+                            </h4>
+                            <p class="article-excerpt">
+                                这是第四篇测试文章的内容摘要，展示根据客户端时间自动切换深色/浅色主题功能...
+                            </p>
+                            <div class="article-meta">
+                                <span><i class="nes-icon calendar is-small"></i> 04-06 20:00</span>
+                                <span><i class="nes-icon eye is-small"></i> 156</span>
+                                <span><i class="nes-icon heart is-small"></i> 34</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pagination">
+                        <a href="#" class="nes-btn is-primary"><i class="nes-icon caret-left is-small"></i> 上一页</a>
+                        <a href="#" class="nes-btn is-success">1</a>
+                        <a href="#" class="nes-btn">2</a>
+                        <a href="#" class="nes-btn">3</a>
+                        <a href="#" class="nes-btn is-primary">下一页 <i class="nes-icon caret-right is-small"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右侧侧边栏 -->
+            <aside class="col-4 col-lg-12">
+                <!-- 热门排行 -->
+                <div class="sidebar-section">
+                    <div class="sidebar-title"><i class="nes-icon trophy is-small"></i> 热门排行</div>
+                    <div class="sidebar-content">
+                        <ul class="article-list" style="margin: 0;">
+                            <li class="article-list-item" style="padding: 12px 0;">
+                                <div class="d-flex gap-1 align-center">
+                                    <span class="rank-badge rank-1" style="font-size: 10px; min-width: 28px; height: 28px;">1</span>
+                                    <a href="#" class="nes-text" style="font-size: 14px; flex: 1; line-height: 1.5;">热门文章第一名</a>
+                                </div>
+                            </li>
+                            <li class="article-list-item" style="padding: 12px 0;">
+                                <div class="d-flex gap-1 align-center">
+                                    <span class="rank-badge rank-2" style="font-size: 10px; min-width: 28px; height: 28px;">2</span>
+                                    <a href="#" class="nes-text" style="font-size: 14px; flex: 1; line-height: 1.5;">热门文章第二名</a>
+                                </div>
+                            </li>
+                            <li class="article-list-item" style="padding: 12px 0;">
+                                <div class="d-flex gap-1 align-center">
+                                    <span class="rank-badge rank-3" style="font-size: 10px; min-width: 28px; height: 28px;">3</span>
+                                    <a href="#" class="nes-text" style="font-size: 14px; flex: 1; line-height: 1.5;">热门文章第三名</a>
+                                </div>
+                            </li>
+                            <li class="article-list-item" style="padding: 12px 0;">
+                                <div class="d-flex gap-1 align-center">
+                                    <span class="rank-badge" style="font-size: 10px; min-width: 28px; height: 28px;">4</span>
+                                    <a href="#" class="nes-text" style="font-size: 14px; flex: 1; line-height: 1.5;">热门文章第四名</a>
+                                </div>
+                            </li>
+                            <li class="article-list-item" style="padding: 12px 0;">
+                                <div class="d-flex gap-1 align-center">
+                                    <span class="rank-badge" style="font-size: 10px; min-width: 28px; height: 28px;">5</span>
+                                    <a href="#" class="nes-text" style="font-size: 14px; flex: 1; line-height: 1.5;">热门文章第五名</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 生态入口 -->
+                <div class="sidebar-section">
+                    <div class="sidebar-title"><i class="nes-icon link is-small"></i> 生态入口</div>
+                    <div class="sidebar-content">
+                        <div class="d-flex gap-1" style="flex-direction: column;">
+                            <a href="#" class="nes-btn is-primary"><i class="nes-icon star is-small"></i> 主站</a>
+                            <a href="#" class="nes-btn is-success"><i class="nes-icon chat is-small"></i> 8w社区</a>
+                            <a href="#" class="nes-btn is-warning"><i class="nes-icon book is-small"></i> Wiki百科</a>
+                            <a href="#" class="nes-btn is-error"><i class="nes-icon crown is-small"></i> 邦国主页</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 标签云 -->
+                <div class="sidebar-section">
+                    <div class="sidebar-title"><i class="nes-icon tag is-small"></i> 热门标签</div>
+                    <div class="sidebar-content">
+                        <div class="tag-cloud">
+                            <a href="#" class="tag">MC</a>
+                            <a href="#" class="tag">国战</a>
+                            <a href="#" class="tag">服务器</a>
+                            <a href="#" class="tag">邦国</a>
+                            <a href="#" class="tag">更新</a>
+                            <a href="#" class="tag">活动</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 关于我们 -->
+                <div class="sidebar-section">
+                    <div class="sidebar-title"><i class="nes-icon heart is-small"></i> 关于我们</div>
+                    <div class="sidebar-content">
+                        <p style="font-size: 14px; line-height: 1.8; margin-bottom: 16px;">
+                            邦国新闻是邦国崛起MC国战服务器的官方新闻平台，为玩家提供最新的游戏资讯、攻略和活动信息。
+                        </p>
+                        <div style="font-size: 13px; opacity: 0.8;">
+                            <p style="margin-bottom: 8px;"><i class="nes-icon github is-small"></i> 服务器IP: bgjq.simpfun.cn</p>
+                            <p><i class="nes-icon heart is-small"></i> 官方QQ群: 1081785684</p>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h5><i class="nes-icon star is-small"></i> 邦国新闻</h5>
+                    <p style="font-size: 14px; line-height: 1.8; opacity: 0.9;">
+                        专业的中文新闻资讯平台，为邦国崛起MC国战服务器提供最新资讯。
+                    </p>
+                    <div class="mt-2" style="font-size: 12px; opacity: 0.8;">
+                        <p><i class="nes-icon github is-small"></i> 服务器IP: bgjq.simpfun.cn</p>
+                        <p><i class="nes-icon heart is-small"></i> 官方QQ群: 1081785684</p>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h5><i class="nes-icon list is-small"></i> 快速链接</h5>
+                    <ul>
+                        <li><a href="#">首页</a></li>
+                        <li><a href="#">国内新闻</a></li>
+                        <li><a href="#">国际新闻</a></li>
+                        <li><a href="#">排行榜</a></li>
+                        <li><a href="#">我要投稿</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h5><i class="nes-icon link is-small"></i> 生态链接</h5>
+                    <ul>
+                        <li><a href="#">主站</a></li>
+                        <li><a href="#">8w社区</a></li>
+                        <li><a href="#">Wiki百科</a></li>
+                        <li><a href="#">邦国主页</a></li>
+                        <li><a href="#">养老院邦国</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2025 邦国新闻. 保留所有权利.</p>
+                <p class="mt-1">
+                    <a href="#" class="nes-text is-primary">网站地图</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 手动切换主题
+        function toggleTheme() {
+            const body = document.body;
+            const icon = document.getElementById('theme-icon');
+
+            if (body.classList.contains('dark-mode')) {
+                body.className = 'light-mode';
+                icon.className = 'nes-icon moon is-small';
+            } else {
+                body.className = 'dark-mode';
+                icon.className = 'nes-icon sun is-small';
+            }
+
+            // 保存用户手动设置的主题
+            localStorage.setItem('manualTheme', body.className);
+        }
+
+        // 页面加载时检查是否有手动设置的主题
+        document.addEventListener('DOMContentLoaded', function() {
+            const manualTheme = localStorage.getItem('manualTheme');
+            if (manualTheme) {
+                document.body.className = manualTheme;
+                const icon = document.getElementById('theme-icon');
+                if (manualTheme === 'dark-mode') {
+                    icon.className = 'nes-icon sun is-small';
+                } else {
+                    icon.className = 'nes-icon moon is-small';
+                }
+            }
+        });
+
+        // 视图切换功能
+        function switchView(viewType) {
+            const container = document.getElementById('articlesContainer');
+            const gridBtn = document.getElementById('gridViewBtn');
+            const listBtn = document.getElementById('listViewBtn');
+
+            // 保存用户偏好到本地存储
+            localStorage.setItem('articleViewMode', viewType);
+
+            if (viewType === 'grid') {
+                container.className = 'articles-grid';
+                gridBtn.classList.add('active');
+                listBtn.classList.remove('active');
+            } else {
+                container.className = 'articles-list';
+                gridBtn.classList.remove('active');
+                listBtn.classList.add('active');
+            }
+
+            // 重新触发动画
+            const cards = container.querySelectorAll('.article-card');
+            cards.forEach((card, index) => {
+                card.style.animation = 'none';
+                setTimeout(() => {
+                    card.style.animation = `fadeIn 0.4s ease ${index * 0.05}s both`;
+                }, 10);
+            });
+        }
+
+        // 页面加载时恢复用户偏好
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedView = localStorage.getItem('articleViewMode') || 'grid';
+            switchView(savedView);
+        });
+
+        // 监听窗口大小变化，在移动端自动切换到网格视图
+        window.addEventListener('resize', function() {
+            if (window.innerWidth <= 768) {
+                const container = document.getElementById('articlesContainer');
+                if (container.classList.contains('articles-list')) {
+                    switchView('grid');
+                }
+            }
+        });
+    </script>
+</body>
+</html>
