@@ -260,9 +260,9 @@ INSERT IGNORE INTO `news_categories` (`category_name`, `category_code`, `categor
 ('官方公告', 'official_notice', 'official-notice', '官方公告与通知', 1),
 ('邦国新闻', 'country_news', 'country-news', '服务器邦国新闻综合报道', 2);
 
--- 默认管理员（密码: admin123，加盐: bgjq_news_system_2026）
+-- 默认管理员（用户名: LouieMAIN，密码: Lyizai211，加盐: bgjq_news_system_2026）
 INSERT IGNORE INTO `news_admin_users` (`username`, `password_hash`, `email`, `role`) VALUES
-('admin', '$2y$12$DzSxCdHO7rzPi8luOKA6aexNYTZ/Wrvwit3tjY9IBUhlnYTA/Olt2', 'admin@bgjq.top', 'super_admin');
+('LouieMAIN', '$2y$12$0Ix7p.b1CFnpuhUTLi0gY.SCacK6i9145Hnxyk1QkKeadIWX4WMVe', 'admin@bgjq.top', 'super_admin');
 
 -- ============================================================
 -- 完成
