@@ -30,7 +30,7 @@
     <meta property="og:title" content="<?php echo $finalTitle . SEO_TITLE_SUFFIX; ?>">
     <meta property="og:description" content="<?php echo $finalDescription; ?>">
     <meta property="og:url" content="<?php echo SITE_URL; ?>">
-    <meta property="og:image" content="<?php echo ASSET_URL; ?>/images/BGJQ.png">
+    <meta property="og:image" content="<?php echo ASSET_URL; ?>/images/BGJQ.webp">
     <meta property="og:locale" content="zh_CN">
 
     <!-- Twitter Card Meta Tags -->
@@ -38,7 +38,7 @@
     <meta name="twitter:site" content="@邦国新闻">
     <meta name="twitter:title" content="<?php echo $finalTitle . SEO_TITLE_SUFFIX; ?>">
     <meta name="twitter:description" content="<?php echo $finalDescription; ?>">
-    <meta name="twitter:image" content="<?php echo ASSET_URL; ?>/images/BGJQ.png">
+    <meta name="twitter:image" content="<?php echo ASSET_URL; ?>/images/BGJQ.webp">
 
     <!-- Theme Color -->
     <meta name="theme-color" content="#209cee" media="(prefers-color-scheme: light)">
@@ -49,7 +49,7 @@
 
     <!-- 图标 -->
     <link rel="icon" href="<?php echo ASSET_URL; ?>/images/favicon.ico" type="image/x-icon">
-    <link rel="apple-touch-icon" href="<?php echo ASSET_URL; ?>/images/BGJQ.png">
+    <link rel="apple-touch-icon" href="<?php echo ASSET_URL; ?>/images/BGJQ.webp">
 
     <!-- 结构化数据 -->
     <script type="application/ld+json">
@@ -64,7 +64,7 @@
             "name": "<?php echo SITE_NAME; ?>",
             "logo": {
                 "@type": "ImageObject",
-                "url": "<?php echo ASSET_URL; ?>/images/BGJQ.png"
+                "url": "<?php echo ASSET_URL; ?>/images/BGJQ.webp"
             }
         },
         "potentialAction": {
@@ -102,7 +102,7 @@
             <div class="top-nav">
                 <!-- 站点品牌 -->
                 <a href="/" class="site-brand">
-                    <img src="<?php echo ASSET_URL; ?>/images/BGJQ.png" alt="邦国新闻" class="site-logo pixelated">
+                    <img src="<?php echo ASSET_URL; ?>/images/BGJQ.webp" alt="邦国新闻" class="site-logo pixelated">
                     <div class="site-brand-text">
                         <h1 class="site-title"><?php echo SITE_NAME; ?></h1>
                         <p class="site-subtitle">BANGGUO NEWS</p>

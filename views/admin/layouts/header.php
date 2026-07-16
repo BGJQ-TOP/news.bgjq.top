@@ -659,7 +659,7 @@
         <div class="container-fluid">
             <div class="d-flex justify-between align-center">
                 <a href="/admin/dashboard" class="site-brand" style="text-decoration: none;">
-                    <img src="<?php echo ASSET_URL; ?>/images/BGJQ.png" alt="邦国新闻" class="site-logo pixelated" style="width: 40px; height: 40px;">
+                    <img src="<?php echo ASSET_URL; ?>/images/BGJQ.webp" alt="邦国新闻" class="site-logo pixelated" style="width: 40px; height: 40px;">
                     <div>
                         <h1 style="font-family: 'Outfit', 'Noto Sans SC', sans-serif; font-size: clamp(0.875rem, 1.4vw, 1.125rem); color: #fff; margin: 0;"><?php echo SITE_NAME; ?></h1>
                         <span style="font-size: clamp(0.5rem, 0.8vw, 0.75rem); color: #e67e22;">后台管理系统</span>
