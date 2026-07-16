@@ -25,13 +25,23 @@ $dsn = "mysql:host=" . DB_HOST . ";port=" . DB_PORT . ";dbname=" . DB_NAME . ";c
 
 // 创建数据库连接
 function getDbConnection() {
+    global $dsn, $db_options;
+    
+    // 检查 .env 文件是否存在
+    $envFile = dirname(__DIR__) . '/.env';
+    if (!file_exists($envFile)) {
+        $msg = '数据库连接失败：缺少 .env 配置文件。请在服务器项目根目录创建 .env 文件，参考 .env.example 模板填写正确的数据库凭据。';
+        error_log($msg);
+        throw new \RuntimeException($msg);
+    }
+    
     try {
-        global $dsn, $db_options;
         $pdo = new PDO($dsn, DB_USER, DB_PASS, $db_options);
         return $pdo;
     } catch (PDOException $e) {
-        error_log("数据库连接失败: " . $e->getMessage());
-        return null;
+        $msg = "数据库连接失败: " . $e->getMessage() . " [host=" . DB_HOST . ", db=" . DB_NAME . ", user=" . DB_USER . "]";
+        error_log($msg);
+        throw new \RuntimeException($msg);
     }
 }
 
